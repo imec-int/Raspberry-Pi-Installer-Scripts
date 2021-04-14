@@ -6,10 +6,10 @@ ifneq ($(KERNELRELEASE),)
 
 all:
 	@echo "Building from the kernel build system"
-	@echo "Module build: $(CONFIG_SND_PDM_RPI)"
+	@echo "Module build: $(CONFIG_SND_I2S_RPI)"
 	@echo "Name: $(MOD_NAME)"
 
-obj-$(CONFIG_SND_PDM_RPI) := $(MOD_NAME).o
+obj-$(CONFIG_SND_I2S_RPI) := $(MOD_NAME).o
 
 else
 # external module build

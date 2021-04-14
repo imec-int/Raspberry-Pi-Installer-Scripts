@@ -22,7 +22,7 @@
 #include <linux/platform_device.h>
 #include <sound/simple_card.h>
 #include <linux/delay.h>
-#include "snd-pdmmic-rpi.h"
+#include "snd-i2smic-rpi.h"
 
 /*
  * modified for linux 4.1.5

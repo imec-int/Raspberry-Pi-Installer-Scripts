@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "This script downloads and installs I2S microphone support."
+echo "This script downloads and installs PDM microphone support."
 # check the raspberry pi version:
 device=$( cat /proc/device-tree/model )
 echo "found: $device"
@@ -21,7 +21,7 @@ else
   pimodel=0
 fi
 
-read -p "Do you wish to load the driver automatically? (yes/no)" yn
+read -p "Do you wish to load the driver automatically? (yes/no) " yn
 case $yn in
         [Yy]* ) autoload=true;;
         [Nn]* ) autoload=false;;
@@ -45,6 +45,7 @@ fi
 
 # adapt the linux bcm2835_i2s kernel driver to enable pdm
 echo "adapting the linux kernel driver bcm2835-i2s for pdm operation"
+echo ""
 cd Raspberry-Pi-Installer-Scripts/pdm_mic_module/linux_bcm2835_kernel
 make -C /lib/modules/$(uname -r )/build M=$(pwd) modules
 # make a copy of the original file
@@ -55,24 +56,26 @@ cd
 
 # Build and install the module
 echo "building the kernel module for the soundcard"
-cd Raspberry-Pi-Installer-Scripts/pdm_mic_module
+echo ""
+cd Raspberry-Pi-Installer-Scripts/pdm_mic_module/pdm_soundcard
 make clean
 make
-make install
+sudo make install
 
 # Setup auto load at boot if selected
-if [ $autoload = true ] ; then
+if [[ $autoload = true ]] ; then
   sudo echo "snd-i2smic-rpi" >> /etc/modules-load.d/snd-pdmmic-rpi.conf
   sudo echo "options snd-i2smic-rpi rpi_platform_generation=$pimodel" >> /etc/modprobe.d/snd-pdmmic-rpi.conf
+fi
 
 # enable I2S/PDM overlay in the device tree
 sudo sed -i -e 's/#dtparam=i2s/dtparam=i2s/g' /boot/config.txt
-
+echo ""
 echo "Done installing, settings take effect on next boot"
-
+echo ""
 read -p "Do you wish to reboot? " yn
 case $yn in
         [Yy]* ) sudo reboot;;
-        [Nn]* ) exit 0;;
+        [Nn]* ) echo "after the next boot you'll find the soundcard enabled";;
         * ) echo "Please answer yes or no.";;
 esac
