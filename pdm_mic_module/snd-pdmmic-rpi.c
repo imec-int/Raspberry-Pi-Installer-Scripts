@@ -51,38 +51,35 @@ MODULE_PARM_DESC(rpi_platform_generation, "Raspberry Pi generation: 0=Pi0, 1=Pi2
 /*
  * Dummy callback for release
  */
-void device_release_callback(struct device *dev) { /*  do nothing */ };
+void device_release_callback(struct device *dev){/*  do nothing */};
 
 /*
  * Setup the card info
  */
 static struct asoc_simple_card_info default_card_info = {
-  .card = "snd_rpi_pdm_card",       // -> snd_soc_card.name
-  .name = "simple-card_codec_link", // -> snd_soc_dai_link.name
-  .codec = "snd-soc-dummy",         // "dmic-codec", // -> snd_soc_dai_link.codec_name
-  .platform = "not-set.i2s",
-  .daifmt = SND_SOC_DAIFMT_PDM  | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBS_CFS,
-  .cpu_dai = {
-    .name = "not-set.i2s",          // -> snd_soc_dai_link.cpu_dai_name
-    .sysclk = 0
-  },
-  .codec_dai = {
-    .name = "snd-soc-dummy-dai",    //"dmic-codec", // -> snd_soc_dai_link.codec_dai_name
-    .sysclk = 0
-  },
+    .card = "snd_rpi_pdm_card",       // -> snd_soc_card.name
+    .name = "simple-card_codec_link", // -> snd_soc_dai_link.name
+    .codec = "snd-soc-dummy",         // "dmic-codec", // -> snd_soc_dai_link.codec_name
+    .platform = "not-set.i2s",
+    .daifmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBS_CFS,
+    .cpu_dai = {
+        .name = "not-set.i2s", // -> snd_soc_dai_link.cpu_dai_name
+        .sysclk = 0},
+    .codec_dai = {.name = "snd-soc-dummy-dai", //"dmic-codec", // -> snd_soc_dai_link.codec_dai_name
+                  .sysclk = 0},
 };
 
 /*
  * Setup the card device
  */
 static struct platform_device default_card_device = {
-  .name = "asoc-simple-card",   //module alias
-  .id = 0,
-  .num_resources = 0,
-  .dev = {
-    .release = &device_release_callback,
-    .platform_data = &default_card_info, // *HACK ALERT*
-  },
+    .name = "asoc-simple-card", //module alias
+    .id = 0,
+    .num_resources = 0,
+    .dev = {
+        .release = &device_release_callback,
+        .platform_data = &default_card_info, // *HACK ALERT*
+    },
 };
 
 /*
@@ -97,27 +94,28 @@ int pdm_mic_rpi_init(void)
   printk(KERN_INFO "snd-pdmmic-rpi: Version %s\n", SND_PDMMIC_RPI_VERSION);
 
   // Set platform
-  switch (rpi_platform_generation) {
-    case 0:
-      // Pi Zero
-      card_platform = "20203000.i2s";
-      break;
-    case 1:
-      // Pi 2 and 3
-      card_platform = "3f203000.i2s";
-      break;
-    case 2:
-    default:
-      // Pi 4
-      card_platform = "fe203000.i2s";
-      break;
+  switch (rpi_platform_generation)
+  {
+  case 0:
+    // Pi Zero
+    card_platform = "20203000.i2s";
+    break;
+  case 1:
+    // Pi 2 and 3
+    card_platform = "3f203000.i2s";
+    break;
+  case 2:
+  default:
+    // Pi 4
+    card_platform = "fe203000.i2s";
+    break;
   }
 
   printk(KERN_INFO "snd-pdmmic-rpi: Setting platform to %s\n", card_platform);
 
   // request DMA engine module
   ret = request_module(dmaengine);
-  pr_alert("request module load '%s': %d\n",dmaengine, ret);
+  pr_alert("request module load '%s': %d\n", dmaengine, ret);
 
   // update info
   card_info = default_card_info;
@@ -129,7 +127,7 @@ int pdm_mic_rpi_init(void)
 
   // register the card device
   ret = platform_device_register(&card_device);
-  pr_alert("register platform device '%s': %d\n",card_device.name, ret);
+  pr_alert("register platform device '%s': %d\n", card_device.name, ret);
 
   return 0;
 }

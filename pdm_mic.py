@@ -34,6 +34,12 @@ Installing...""")
     # Clone the repo
     shell.run_command("git clone https://github.com/adafruit/Raspberry-Pi-Installer-Scripts.git")
 
+    # adapt the linux bcm2835_i2s kernel driver to enable pdm
+    shell.chdir("Raspberry-Pi-Installer-Scripts/pdm_mic_module/linux_bcm2835_kernel")
+    shell.run_command("make -C /lib/modules/$(uname -r )/build M=$(pwd) modules")
+    shell.run_command("sudo cp /lib/modules/$(uname -r )/kernel/sound/soc/bcm/snd-soc-bcm2835-i2s.ko /lib/modules/$(uname -r )/kernel/sound/soc/bcm/snd-soc-bcm2835-i2s.BAK")
+    shell.run_command("sudo cp snd-soc-bcm2835-i2s.ko /lib/modules/$(uname -r )/kernel/sound/soc/bcm/snd-soc-bcm2835-i2s.ko")
+
     # Build and install the module
     shell.chdir("Raspberry-Pi-Installer-Scripts/pdm_mic_module")
     shell.run_command("make clean")
