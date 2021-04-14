@@ -62,10 +62,10 @@ make clean
 make
 sudo make install
 
-# Setup auto load at boot if selected
+# Setup auto load at boot if selected, notice, we can't use "sudo echo" to have elevated rights to write to the module files
 if [[ $autoload = true ]] ; then
-  sudo echo "snd-i2smic-rpi" >> /etc/modules-load.d/snd-pdmmic-rpi.conf
-  sudo echo "options snd-i2smic-rpi rpi_platform_generation=$pimodel" >> /etc/modprobe.d/snd-pdmmic-rpi.conf
+  echo "snd-i2smic-rpi" | sudo tee -a /etc/modules-load.d/snd-pdmmic-rpi.conf
+  echo "options snd-i2smic-rpi rpi_platform_generation=$pimodel" | sudo tee -a /etc/modprobe.d/snd-pdmmic-rpi.conf
 fi
 
 # enable I2S/PDM overlay in the device tree
