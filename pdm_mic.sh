@@ -34,10 +34,10 @@ sudo apt-get -y install git raspberrypi-kernel-headers
 cd
 
 if [ ! -d "Raspberry-Pi-Installer-Scripts" ]; then
-    echo "{green}cloning the RPI installer scripts{reset}"
+    echo "cloning the RPI installer scripts"
     git clone https://github.com/imec-int/Raspberry-Pi-Installer-Scripts
 else
-    echo "{green}update rpi installer scripts {reset}"
+    echo "update rpi installer scripts"
     cd Raspberry-Pi-Installer-Scripts
     git pull
     cd

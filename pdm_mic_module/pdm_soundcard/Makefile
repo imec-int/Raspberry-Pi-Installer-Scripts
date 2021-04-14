@@ -29,7 +29,7 @@ KDIR	?= /lib/modules/$(shell uname -r)/build
 MDIR	?= /lib/modules/$(shell uname -r)
 PWD	:= $(shell pwd)
 
-export CONFIG_SND_PDM_RPI := m
+export CONFIG_SND_I2S_RPI := m
 
 all:
 	$(MAKE) -C $(KDIR) M=$(PWD) modules
