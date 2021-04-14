@@ -2,6 +2,7 @@ try:
     from adafruit_shell import Shell
 except ImportError:
     raise RuntimeError("The library 'adafruit_shell' was not found. To install, try typing: sudo pip3 install adafruit-python-shell")
+from os import path
 
 shell = Shell()
 
@@ -31,8 +32,9 @@ Installing...""")
     # Get needed packages
     shell.run_command("apt-get -y install git raspberrypi-kernel-headers")
 
-    # Clone the repo
-    shell.run_command("git clone https://github.com/adafruit/Raspberry-Pi-Installer-Scripts.git")
+    if(not path.exists("Raspberry-Pi-Installer-Scripts")):
+        # Clone the repo
+        shell.run_command("git clone https://github.com/adafruit/Raspberry-Pi-Installer-Scripts.git")
 
     # adapt the linux bcm2835_i2s kernel driver to enable pdm
     shell.chdir("Raspberry-Pi-Installer-Scripts/pdm_mic_module/linux_bcm2835_kernel")

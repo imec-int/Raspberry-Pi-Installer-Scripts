@@ -1,4 +1,4 @@
-MOD_NAME	:= snd-pdmmic-rpi
+MOD_NAME	:= snd-i2smic-rpi
 
 ifneq ($(KERNELRELEASE),)
 
@@ -40,7 +40,7 @@ clean:
 help:
 	$(MAKE) -C $(KDIR) M=$(PWD) help
 
-install: snd-pdmmic-rpi.ko
+install: snd-i2smic-rpi.ko
 	rm -f ${MDIR}/kernel/sound/drivers/$(MOD_NAME).ko
 	install -m644 -b -D $(MOD_NAME).ko ${MDIR}/kernel/sound/drivers/$(MOD_NAME).ko
 	depmod -a
@@ -51,9 +51,9 @@ uninstall:
 
 test:
 	sudo dmesg -C
- 	sudo insmod snd-pdmmic-rpi.ko
- 	sudo rmmod snd-pdmmic-rpi.ko
- 	dmesg
+	sudo insmod snd-i2smic-rpi.ko
+	sudo rmmod snd-i2smic-rpi.ko
+	dmesg
 
 endif
 
