@@ -1,10 +1,6 @@
 #!/bin/bash
-#colouring for easier readability
-red=`tput setaf 1`
-green=`tput setaf 2`
-reset=`tput sgr0`
 
-echo "{green}This script downloads and installs I2S microphone support.{reset}"
+echo "This script downloads and installs I2S microphone support."
 # check the raspberry pi version:
 device=$( cat /proc/device-tree/model )
 echo "found: $device"
@@ -14,10 +10,10 @@ if [[ $device != *"Raspberry"* ]]; then
 fi
 if [[ $device != *"Pi[[:space:]]4"* ]]; then
   pimodel=2
-elif [[ $device != *"Pi[[:space:]]3"* ]] then;
+elif [[ $device != *"Pi[[:space:]]3"* ]]; then
   echo "raspberry pis lower than a 4 haven't been tested yet"
   pimodel=1
-elif [[ $device != *"Pi[[:space:]]2"* ]] then;
+elif [[ $device != *"Pi[[:space:]]2"* ]]; then
   echo "raspberry pis lower than a 4 haven't been tested yet"
   pimodel=1
 else
@@ -25,7 +21,7 @@ else
   pimodel=0
 fi
 
-read -p "Do you wish to load the driver automatically? " yn
+read -p "Do you wish to load the driver automatically? (yes/no)" yn
 case $yn in
         [Yy]* ) autoload=true;;
         [Nn]* ) autoload=false;;
