@@ -25,3 +25,7 @@ wget https://raw.githubusercontent.com/imec-int/Raspberry-Pi-Installer-Scripts/m
 sudo chmod 755 pdm_mic.sh
 ./pdm_mic.sh
 ```
+
+### TODO
+
+right now the bit clock is not altered and going at 1.4MHz. By not having it at 3.072Meg we lose about 3dB of SNR. Rising the clock also changes sound frequency, so I need to take a deeper look into the linux bcm2835-i2s driver to see the connection between bclk and samplerate Fs?
