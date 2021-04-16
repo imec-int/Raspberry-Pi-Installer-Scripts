@@ -107,7 +107,7 @@ int pdm_mic_rpi_init(void)
   case 2:
   default:
     // Pi 4
-    card_platform = "fe203000.i2s";
+    card_platform = "fe203000.i2s"; 
     break;
   }
 

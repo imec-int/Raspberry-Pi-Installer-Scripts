@@ -9,6 +9,8 @@
 a test script to mmap a device file to user memory space
 another option is using busybox: `sudo apt-get install busybox`, usage `sudo busybox devmem 0x12345678`
 This program is used to verify is the PDM driver is actually writing the correct hardware registers
+
+test: sudo ./devmem 0x7e203000 0x08, should return 0xX[C-F]XX XXXX
 */
 int main(int argc, char *argv[]) {
     if (argc < 3) {
